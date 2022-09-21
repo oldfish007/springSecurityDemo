@@ -1,0 +1,13 @@
+server:
+  port: 8070
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sg_security?characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: 123
+mooc:
+  jwt:
+    access-toke-expire-time: 300000
+    #refresh-toke-expire-time: 2592000000
