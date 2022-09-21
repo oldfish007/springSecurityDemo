@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -23,6 +25,11 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;//认证统一异常处理类
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;//授权统一异常处理类
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -37,6 +44,8 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
             .anyRequest().authenticated())//任意的请求认证之后都可以访问
             .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(authenticationEntryPoint)
+                                                                      .accessDeniedHandler(accessDeniedHandler))
         ;//除去这些接口其他接口都要认证
     }
 
@@ -51,4 +60,7 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+
+
 }

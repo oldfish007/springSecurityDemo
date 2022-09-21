@@ -11,3 +11,5 @@ mooc:
   jwt:
     access-toke-expire-time: 300000
     #refresh-toke-expire-time: 2592000000
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml

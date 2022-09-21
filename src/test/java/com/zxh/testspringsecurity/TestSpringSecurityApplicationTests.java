@@ -1,6 +1,7 @@
 package com.zxh.testspringsecurity;
 
 import com.zxh.testspringsecurity.domain.User;
+import com.zxh.testspringsecurity.mapper.MenuMapper;
 import com.zxh.testspringsecurity.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @SpringBootTest
@@ -17,6 +19,8 @@ class TestSpringSecurityApplicationTests {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private MenuMapper menuMapper;
  //从容器注入
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -35,6 +39,12 @@ class TestSpringSecurityApplicationTests {
                 .matches("1234",
                 "$2a$10$Q/PfdBjBtsxRNPO9llIcmuzGnvB.yxvuXxI8JBikCsDaM3RzEfA7m"));
 
+    }
+
+    @Test
+    public void test(){
+        List<String> str = menuMapper.selectPermsByUserId(3L);
+        System.out.println(str);
     }
 
 

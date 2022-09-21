@@ -3,6 +3,7 @@ package com.zxh.testspringsecurity.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zxh.testspringsecurity.domain.LoginUser;
 import com.zxh.testspringsecurity.domain.User;
+import com.zxh.testspringsecurity.mapper.MenuMapper;
 import com.zxh.testspringsecurity.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private MenuMapper menuMapper;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -34,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userMapper.selectOne(queryWrapper);
         Optional.of(user).orElseThrow(() -> new UsernameNotFoundException("未找到用户名"));
         //TODO  查询数据库对应的权限集合信息返回userDetails
-        List<String> permissions = new ArrayList<>(Arrays.asList("test","Admin"));
+        List<String> permissions = menuMapper.selectPermsByUserId(user.getId());
         return new LoginUser(user,permissions);
     }
 }

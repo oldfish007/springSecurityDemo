@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("test")
 public class TestController {
     @RequestMapping(value = "/hello",method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('test3')")
+    @PreAuthorize("hasAuthority('system:dept:list')")
     public String test(){
         System.out.println();
         return "helloworld";
